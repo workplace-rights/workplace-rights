@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>職場權益幫手｜勞資爭議諮詢</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink2: #3d3d38;
+    --ink3: #7a7a72;
+    --paper: #f7f5f0;
+    --paper2: #eeeae2;
+    --accent: #c84b2f;
+    --accent2: #e8956d;
+    --line: rgba(26,26,24,0.12);
+    --serif: 'Noto Serif TC', serif;
+    --sans: 'Noto Sans TC', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(247,245,240,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-brand { font-family: var(--serif); font-size: 17px; font-weight: 700; letter-spacing: 0.05em; }
+  .nav-brand span { color: var(--accent); }
+  .nav-cta {
+    background: var(--ink); color: var(--paper);
+    font-size: 13px; font-family: var(--sans); font-weight: 500;
+    padding: 8px 20px; border: none; cursor: pointer;
+    letter-spacing: 0.05em; transition: background .2s;
+    text-decoration: none; display: inline-block;
+  }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 45%; height: 100%;
+    background: var(--paper2);
+    clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+    z-index: 0;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+  .hero-tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
+    color: var(--accent); text-transform: uppercase;
+    border-left: 2px solid var(--accent); padding-left: 12px;
+    margin-bottom: 28px; display: block;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    max-width: 620px;
+  }
+  .hero-title em { color: var(--accent); font-style: normal; }
+  .hero-sub {
+    font-size: 16px; color: var(--ink2); line-height: 1.8;
+    max-width: 480px; margin-bottom: 40px; font-weight: 300;
+  }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 14px 32px; font-size: 14px; font-weight: 500;
+    border: none; cursor: pointer; letter-spacing: 0.05em;
+    transition: background .2s, transform .15s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: #a83820; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--ink);
+    padding: 14px 32px; font-size: 14px; font-weight: 500;
+    border: 1px solid var(--ink); cursor: pointer; letter-spacing: 0.05em;
+    transition: all .2s; text-decoration: none; display: inline-block;
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px; flex-wrap: wrap;
+    padding-top: 40px; border-top: 1px solid var(--line);
+  }
+  .stat-num { font-family: var(--serif); font-size: 32px; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 12px; color: var(--ink3); letter-spacing: 0.05em; margin-top: 2px; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 80px 40px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
+    color: var(--accent); text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 700; line-height: 1.25;
+    margin-bottom: 16px;
+  }
+  .section-sub { font-size: 15px; color: var(--ink2); font-weight: 300; max-width: 540px; line-height: 1.8; }
+
+  /* ── WHO I HELP ── */
+  .who { background: var(--paper2); }
+  .who-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; margin-top: 48px; }
+  .who-card {
+    background: var(--paper);
+    padding: 36px 32px;
+    position: relative; overflow: hidden;
+    transition: transform .2s;
+  }
+  .who-card:hover { transform: translateY(-3px); }
+  .who-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .who-card.c1::before { background: var(--accent); }
+  .who-card.c2::before { background: #3a7abf; }
+  .who-card.c3::before { background: #b8860b; }
+  .who-num {
+    font-family: var(--serif); font-size: 52px; font-weight: 700;
+    color: var(--paper2); line-height: 1;
+    position: absolute; top: 16px; right: 24px;
+  }
+  .who-tag {
+    font-size: 11px; letter-spacing: 0.15em; font-weight: 500;
+    margin-bottom: 14px; display: inline-block;
+  }
+  .who-card.c1 .who-tag { color: var(--accent); }
+  .who-card.c2 .who-tag { color: #3a7abf; }
+  .who-card.c3 .who-tag { color: #b8860b; }
+  .who-card h3 { font-family: var(--serif); font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  .who-card p { font-size: 14px; color: var(--ink2); line-height: 1.8; font-weight: 300; }
+  .who-list { margin-top: 16px; list-style: none; }
+  .who-list li {
+    font-size: 13px; color: var(--ink2); padding: 6px 0;
+    border-bottom: 1px solid var(--line); display: flex; gap: 10px; align-items: flex-start;
+  }
+  .who-list li::before { content: '—'; color: var(--ink3); flex-shrink: 0; }
+
+  /* ── WHAT I DO ── */
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 56px; }
+  @media (max-width: 700px) { .what-grid { grid-template-columns: 1fr; } }
+  .what-item { display: flex; gap: 24px; align-items: flex-start; }
+  .what-num {
+    font-family: var(--serif); font-size: 13px; font-weight: 700;
+    color: var(--accent); border: 1px solid var(--accent);
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 4px;
+  }
+  .what-item h4 { font-family: var(--serif); font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .what-item p { font-size: 13px; color: var(--ink2); line-height: 1.8; font-weight: 300; }
+
+  /* ── PROCESS ── */
+  .process { background: var(--ink); color: var(--paper); }
+  .process .section-title { color: var(--paper); }
+  .process .section-sub { color: rgba(247,245,240,0.65); }
+  .process .section-label { color: var(--accent2); }
+  .process .section-label::after { background: var(--accent2); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 56px; }
+  .step {
+    padding: 32px 28px;
+    border-right: 1px solid rgba(247,245,240,0.08);
+    position: relative;
+  }
+  .step:last-child { border-right: none; }
+  .step-n {
+    font-family: var(--serif); font-size: 48px; font-weight: 700;
+    color: rgba(247,245,240,0.08); line-height: 1; margin-bottom: 16px;
+  }
+  .step-badge {
+    font-size: 10px; letter-spacing: 0.15em; font-weight: 500;
+    color: var(--accent2); text-transform: uppercase; margin-bottom: 10px; display: block;
+  }
+  .step h4 { font-family: var(--serif); font-size: 17px; font-weight: 600; margin-bottom: 10px; color: var(--paper); }
+  .step p { font-size: 13px; color: rgba(247,245,240,0.55); line-height: 1.8; font-weight: 300; }
+  .step-free {
+    display: inline-block; margin-top: 12px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    background: var(--accent); color: #fff; padding: 3px 10px;
+  }
+
+  /* ── ABOUT ── */
+  .about-inner { max-width: 720px; }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .about-tag {
+    font-size: 12px; color: var(--ink2); border: 1px solid var(--line);
+    padding: 5px 12px; letter-spacing: 0.03em;
+  }
+  blockquote {
+    font-family: var(--serif); font-size: 20px; font-weight: 600;
+    line-height: 1.6; color: var(--ink);
+    border-left: 3px solid var(--accent); padding-left: 24px;
+    margin: 24px 0;
+  }
+
+  /* ── FORM ── */
+  .form-section { background: var(--paper2); }
+  .form-wrapper { display: grid; grid-template-columns: 1fr 1.2fr; gap: 72px; align-items: start; }
+  @media (max-width: 700px) { .form-wrapper { grid-template-columns: 1fr; gap: 40px; } }
+  .form-intro h3 { font-family: var(--serif); font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+  .form-intro p { font-size: 14px; color: var(--ink2); line-height: 1.8; font-weight: 300; margin-bottom: 12px; }
+  .form-promise { margin-top: 32px; }
+  .promise-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 0; border-bottom: 1px solid var(--line);
+  }
+  .promise-icon {
+    width: 32px; height: 32px; background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 14px; color: #fff;
+  }
+  .promise-item strong { font-size: 13px; font-weight: 500; display: block; }
+  .promise-item span { font-size: 12px; color: var(--ink3); }
+
+  form { background: var(--paper); padding: 36px; }
+  .form-group { margin-bottom: 20px; }
+  label { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; display: block; margin-bottom: 7px; }
+  .req { color: var(--accent); }
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%; padding: 11px 14px;
+    border: 1px solid var(--line); background: var(--paper);
+    font-family: var(--sans); font-size: 14px; color: var(--ink);
+    outline: none; transition: border-color .2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7a72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 36px;
+  }
+  textarea { resize: vertical; min-height: 110px; }
+  .radio-group { display: flex; flex-direction: column; gap: 8px; }
+  .radio-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .radio-item input[type="radio"] { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
+  .radio-item span { font-size: 13px; color: var(--ink2); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+  .submit-btn {
+    width: 100%; background: var(--accent); color: #fff;
+    padding: 15px; font-size: 14px; font-weight: 500;
+    border: none; cursor: pointer; letter-spacing: 0.08em;
+    font-family: var(--sans); transition: background .2s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: #a83820; }
+  .form-note { font-size: 11px; color: var(--ink3); text-align: center; margin-top: 12px; line-height: 1.7; }
+
+  /* ── SUCCESS ── */
+  .success-msg {
+    display: none; text-align: center; padding: 40px 24px;
+    background: var(--paper);
+  }
+  .success-msg.show { display: block; }
+  .success-icon { font-size: 40px; margin-bottom: 16px; }
+  .success-msg h3 { font-family: var(--serif); font-size: 22px; margin-bottom: 10px; }
+  .success-msg p { font-size: 14px; color: var(--ink2); line-height: 1.8; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(247,245,240,0.5);
+    padding: 36px 40px; text-align: center;
+    font-size: 12px; letter-spacing: 0.05em; line-height: 2;
+  }
+  footer strong { color: var(--paper); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag { animation: fadeUp .6s ease both; }
+  .hero-title { animation: fadeUp .6s .15s ease both; }
+  .hero-sub { animation: fadeUp .6s .3s ease both; }
+  .hero-btns { animation: fadeUp .6s .42s ease both; }
+  .hero-stats { animation: fadeUp .6s .54s ease both; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    section { padding: 60px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .hero::before { width: 100%; clip-path: none; opacity: 0.4; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .step { border-right: none; border-bottom: 1px solid rgba(247,245,240,0.08); }
+    .step:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">職場<span>權益</span>幫手</div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <a href="https://line.me/R/ti/p/@685caovg" target="_blank" class="nav-cta" style="background:#06C755;" id="nav-line-btn">加 Line 諮詢</a>
+    <a href="#form" class="nav-cta">填寫諮詢表單</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag" data-edit="hero-tag">HR 實務顧問 · 十年經驗</span>
+    <h1 class="hero-title" data-edit="hero-title">
+      面對公司，<br>
+      你需要<em>懂規則的人</em><br>
+      站在你這邊
+    </h1>
+    <p class="hero-sub" data-edit="hero-sub">
+      不是律師，但比律師更懂公司的 HR 在想什麼。
+      從薪資爭議、非法資遣到職場霸凌，
+      用實戰經驗幫你判斷、蒐集證據、擬定策略。
+    </p>
+    <div class="hero-btns">
+      <a href="#form" class="btn-primary" data-edit="hero-btn-primary">填寫諮詢表單</a>
+      <a href="#what" class="btn-ghost" data-edit="hero-btn-ghost">了解服務內容</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num" data-edit="stat1-num">10+</div>
+        <div class="stat-label" data-edit="stat1-label">年 HR 實務經驗</div>
+      </div>
+      <div>
+        <div class="stat-num" data-edit="stat2-num">2天</div>
+        <div class="stat-label" data-edit="stat2-label">內回覆初步判斷</div>
+      </div>
+      <div>
+        <div class="stat-num" data-edit="stat3-num">NT$500</div>
+        <div class="stat-label" data-edit="stat3-label">30分鐘深度諮詢</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO I HELP -->
+<section class="who" id="who">
+  <div class="container">
+    <div class="section-label">服務對象</div>
+    <h2 class="section-title" data-edit="who-title">你是這樣的人嗎？</h2>
+    <p class="section-sub" data-edit="who-sub">兩種最常見的職場困境，都是我熟悉的戰場。</p>
+    <div class="who-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div class="who-card c1">
+        <div class="who-num">01</div>
+        <span class="who-tag" data-edit="who1-tag">求職者</span>
+        <h3 data-edit="who1-title">準備換工作</h3>
+        <p data-edit="who1-desc">有心儀職缺但不知如何準備，或想確認這份工作是否適合自己。</p>
+        <ul class="who-list">
+          <li>履歷健診與修改方向</li>
+          <li>職位 JD 解析、合適度評估</li>
+          <li>面試模擬與逐題回饋</li>
+        </ul>
+      </div>
+      <div class="who-card c2">
+        <div class="who-num">02</div>
+        <span class="who-tag" data-edit="who2-tag">在職上班族</span>
+        <h3 data-edit="who2-title">遇到勞資問題</h3>
+        <p data-edit="who2-desc">感覺公司做法不對，但不確定是否真的違法，更不知道該怎麼辦。</p>
+        <ul class="who-list">
+          <li>加班費、薪資遭扣爭議</li>
+          <li>突然被資遣或被迫離職</li>
+          <li>職場霸凌或不當對待</li>
+          <li>不合理的工時與休假安排</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+<section id="what">
+  <div class="container">
+    <div class="section-label">服務內容</div>
+    <h2 class="section-title">我能幫你做什麼</h2>
+    <p class="section-sub">不給你模糊的法律條文，給你下週就能執行的具體行動。</p>
+    <div class="what-grid">
+      <div class="what-item">
+        <div class="what-num">1</div>
+        <div>
+          <h4>情境判斷 · HR 視角解讀</h4>
+          <p>用 HR 的角度告訴你：公司這樣做是否合理？他們的真實意圖是什麼？這個情況的嚴重程度如何？幫你看清楚局面再做決定。</p>
+        </div>
+      </div>
+      <div class="what-item">
+        <div class="what-num">2</div>
+        <div>
+          <h4>證據蒐集 · 保存清單指導</h4>
+          <p>哪些訊息截圖要保存、薪資單和出勤紀錄如何取得、對話紀錄如何做成可用的證據。在你採取任何行動之前，先把底牌整理好。</p>
+        </div>
+      </div>
+      <div class="what-item">
+        <div class="what-num">3</div>
+        <div>
+          <h4>行動策略 · 優先順序建議</h4>
+          <p>先談判還是先申訴？要找勞工局還是直接走法律途徑？每個選項的代價與可能結果，讓你在了解全貌後做出最有利的選擇。</p>
+        </div>
+      </div>
+      <div class="what-item">
+        <div class="what-num">4</div>
+        <div>
+          <h4>話術準備 · 對話腳本協助</h4>
+          <p>怎麼跟主管或 HR 開口？談判時哪些話有效、哪些話會踩雷？存證信如何寫、離職協議要注意什麼，一起把草稿準備好。</p>
+        </div>
+      </div>
+      <div class="what-item">
+        <div class="what-num">5</div>
+        <div>
+          <h4>申訴書草稿 · 文件協助</h4>
+          <p>要向勞工局或主管機關申訴時，協助你整理陳述內容、確認邏輯清晰、讓承辦人員一眼看懂你的訴求。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-label">服務流程</div>
+    <h2 class="section-title">四個步驟，<br>從混亂到清晰</h2>
+    <p class="section-sub">填完表單後 2 個工作天內回覆，並請加 Line 方便聯繫。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <span class="step-badge">第一步</span>
+        <h4>填寫情況表單</h4>
+        <p>描述你的狀況、公司規模、在職年資，以及手邊有哪些紀錄。我在回覆前先完整了解你的案情。</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <span class="step-badge">2 個工作天內</span>
+        <h4>加 Line · 回覆初步判斷</h4>
+        <p>填完表單後請直接加 Line 好友，方便聯繫。我會在 2 個工作天內以文字回覆：這個情況的判斷、建議先採取什麼行動。</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <span class="step-badge">付費服務</span>
+        <h4 data-edit="step3-title">深度諮詢 30 分鐘 · NT$500</h4>
+        <p data-edit="step3-desc">視訊深談：證據清單、對話策略、下一步行動規劃。結束後提供書面「HR 顧問建議摘要」。</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <span class="step-badge">視需求加購</span>
+        <h4 data-edit="step4-title">持續陪跑支援</h4>
+        <p data-edit="step4-desc">申訴書撰寫協助、談判前的話術確認、或月方案持續追蹤進度——根據你的需求彈性規劃。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div>
+        <div class="section-label">關於我</div>
+        <h2 class="section-title" data-edit="about-title">我不是律師，<br>但我見過太多了。</h2>
+        <blockquote data-edit="about-quote">
+          「很多人遇到問題，第一反應是忍，第二反應是慌。我希望你第一反應是——先來問我。」
+        </blockquote>
+        <p style="font-size:15px; color:var(--ink2); line-height:1.9; font-weight:300; margin-bottom:20px;" data-edit="about-p1">
+          在 HR 這行超過十年，經手過各式各樣的勞資案件——從小摩擦到大爭議，從資遣談判到申訴調解。我知道公司 HR 說出口的是什麼、沒說出口的又是什麼。
+        </p>
+        <p style="font-size:15px; color:var(--ink2); line-height:1.9; font-weight:300; margin-bottom:28px;" data-edit="about-p2">
+          這個服務的出發點很簡單：讓每個上班族在面對公司之前，先有一個懂局的人幫他們看清楚。
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">勞動基準法實務</span>
+          <span class="about-tag">勞資談判經驗</span>
+          <span class="about-tag">員工關係管理</span>
+          <span class="about-tag">HR 制度設計</span>
+          <span class="about-tag">申訴案件處理</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="form">
+  <div class="container">
+    <div class="section-label">情況諮詢表單</div>
+    <h2 class="section-title" style="margin-bottom:48px;" data-edit="form-title">填寫你的情況，<br>2 個工作天內回覆初步判斷</h2>
+    <div class="form-wrapper">
+
+      <div class="form-intro">
+        <h3 data-edit="form-intro-title">填表前請放心</h3>
+        <p data-edit="form-intro-p1">只需要填你相關的問題，每步驟 2–3 題，3 分鐘內完成。</p>
+        <p data-edit="form-intro-p2">填完表單後，請<strong>直接加 Line 好友</strong>方便聯繫，我會在 <strong>2 個工作天內</strong>回覆初步判斷。</p>
+
+        <a href="https://line.me/R/ti/p/@685caovg" target="_blank" id="line-cta-card" style="display:flex; align-items:center; gap:14px; background:#06C755; color:#fff; padding:14px 18px; margin-top:16px; text-decoration:none; transition:opacity .2s;">
+          <div style="width:36px; height:36px; background:rgba(255,255,255,0.2); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">💬</div>
+          <div>
+            <div style="font-size:13px; font-weight:600;">填表後請加 Line 好友</div>
+            <div style="font-size:11px; opacity:0.9;"><span class="line-id-text">@685caovg</span>　·　方便聯繫、回覆較快</div>
+          </div>
+        </a>
+
+        <div class="form-promise">
+          <div class="promise-item">
+            <div class="promise-icon">✓</div>
+            <div><strong>HR 視角初判</strong><span>告訴你情況是否合理、嚴重程度如何</span></div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-icon">✓</div>
+            <div><strong>建議下一步</strong><span>你現在最應該先做什麼，具體可執行</span></div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-icon">✓</div>
+            <div><strong>2個工作天內回覆</strong><span>填表並加Line後，盡快給你初步判斷</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div id="form-container">
+
+          <!-- 進度條 -->
+          <div id="progress-bar" style="margin-bottom:24px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span id="step-label" style="font-size:12px; color:var(--ink3); letter-spacing:0.05em;">步驟 1 / 3</span>
+              <span id="step-title-label" style="font-size:12px; color:var(--accent); font-weight:500;">選擇身份</span>
+            </div>
+            <div style="height:3px; background:var(--paper2); border-radius:2px;">
+              <div id="progress-fill" style="height:100%; background:var(--accent); border-radius:2px; transition:width .4s ease; width:33%;"></div>
+            </div>
+          </div>
+
+          <!-- STEP 1：選身份 -->
+          <div id="step-1" class="form-step" style="background:var(--paper); padding:28px;">
+            <p style="font-size:14px; font-weight:500; margin-bottom:20px;">你目前的狀況比較像哪一種？</p>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <label class="type-card" data-type="job">
+                <input type="radio" name="identity" value="job" style="display:none;">
+                <div class="type-card-inner">
+                  <div class="type-card-title">求職者</div>
+                  <div class="type-card-sub">準備面試、想換工作、不確定職缺是否合適</div>
+                </div>
+                <div class="type-check">✓</div>
+              </label>
+              <label class="type-card" data-type="labor">
+                <input type="radio" name="identity" value="labor" style="display:none;">
+                <div class="type-card-inner">
+                  <div class="type-card-title">在職上班族</div>
+                  <div class="type-card-sub">遇到薪資、加班、資遣、霸凌等勞資問題</div>
+                </div>
+                <div class="type-check">✓</div>
+              </label>
+            </div>
+            <button class="submit-btn" id="btn-next-1" onclick="goStep2()" style="margin-top:20px; opacity:0.4; pointer-events:none;">下一步 →</button>
+          </div>
+
+          <!-- STEP 2a：求職者 -->
+          <div id="step-2-job" class="form-step" style="display:none; background:var(--paper); padding:28px;">
+            <p style="font-size:13px; color:var(--ink3); margin-bottom:20px;">求職者 · 步驟 2</p>
+            <div class="form-group">
+              <label>目前在找哪類職位？<span class="req">*</span></label>
+              <input type="text" id="job-position" placeholder="例：行銷專員、工程師、業務" maxlength="40">
+              <div class="char-count"><span id="cnt-job-position">0</span> / 40 字</div>
+            </div>
+            <div class="form-group">
+              <label>最想解決哪個問題？<span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="job-issue" value="resume"><span>履歷沒有回音，不知道問題在哪</span></label>
+                <label class="radio-item"><input type="radio" name="job-issue" value="interview"><span>有面試機會，想提前準備和模擬</span></label>
+                <label class="radio-item"><input type="radio" name="job-issue" value="fit"><span>不確定這份工作適不適合我</span></label>
+                <label class="radio-item"><input type="radio" name="job-issue" value="salary"><span>收到 offer，想確認薪資怎麼談</span></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>補充說明（選填）</label>
+              <textarea id="job-desc" placeholder="可以貼上職缺名稱、說明你的疑慮，或任何你覺得重要的背景" maxlength="150" style="min-height:80px;"></textarea>
+              <div class="char-count"><span id="cnt-job-desc">0</span> / 150 字</div>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn-ghost" onclick="goStep1()" style="flex:1; padding:12px;">← 上一步</button>
+              <button class="submit-btn" onclick="goStep3()" style="flex:2;">下一步 →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2b：在職上班族 -->
+          <div id="step-2-labor" class="form-step" style="display:none; background:var(--paper); padding:28px;">
+            <p style="font-size:13px; color:var(--ink3); margin-bottom:20px;">在職上班族 · 步驟 2</p>
+            <div class="form-group">
+              <label>遇到的問題類型<span class="req">*</span></label>
+              <select id="labor-issue">
+                <option value="">請選擇</option>
+                <option>薪資 / 加班費爭議</option>
+                <option>資遣 / 被迫離職</option>
+                <option>工時 / 排班 / 休假問題</option>
+                <option>職場霸凌 / 不當對待</option>
+                <option>合約 / 競業條款問題</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>在這家公司的年資</label>
+                <select id="labor-tenure">
+                  <option value="">請選擇</option>
+                  <option>未滿 3 個月</option>
+                  <option>3 個月–1 年</option>
+                  <option>1–3 年</option>
+                  <option>3 年以上</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>公司規模</label>
+                <select id="labor-size">
+                  <option value="">請選擇</option>
+                  <option>10 人以下</option>
+                  <option>11–50 人</option>
+                  <option>51–200 人</option>
+                  <option>200 人以上</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>手邊有哪些紀錄？（勾選有的）</label>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:6px;">
+                <label class="check-pill"><input type="checkbox" value="contract"> 勞動契約</label>
+                <label class="check-pill"><input type="checkbox" value="payslip"> 薪資單</label>
+                <label class="check-pill"><input type="checkbox" value="attendance"> 出勤紀錄</label>
+                <label class="check-pill"><input type="checkbox" value="chat"> 對話截圖</label>
+                <label class="check-pill"><input type="checkbox" value="email"> Email 紀錄</label>
+                <label class="check-pill"><input type="checkbox" value="witness"> 目擊者</label>
+                <label class="check-pill"><input type="checkbox" value="none"> 目前都沒有</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>簡單描述發生什麼事<span class="req">*</span></label>
+              <textarea id="labor-desc" placeholder="大概說明情況就好，不用寫完整——例如：公司上個月突然扣薪，說是績效問題，但沒有任何書面通知" maxlength="150" style="min-height:90px;"></textarea>
+              <div class="char-count"><span id="cnt-labor-desc">0</span> / 150 字</div>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn-ghost" onclick="goStep1()" style="flex:1; padding:12px;">← 上一步</button>
+              <button class="submit-btn" onclick="goStep3()" style="flex:2;">下一步 →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3：聯絡資訊 -->
+          <div id="step-3" class="form-step" style="display:none; background:var(--paper); padding:28px;">
+            <p style="font-size:13px; color:var(--ink3); margin-bottom:20px;">最後一步 · 聯絡方式</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label>你的稱呼<span class="req">*</span></label>
+                <input type="text" id="final-name" placeholder="怎麼稱呼你" maxlength="20">
+              </div>
+              <div class="form-group">
+                <label>Email<span class="req">*</span></label>
+                <input type="email" id="final-email" placeholder="收到回覆的信箱">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Line ID（選填）</label>
+              <input type="text" id="final-line" placeholder="填了可以用 Line 回覆，比較快" maxlength="30">
+            </div>
+            <div class="form-group">
+              <label>方便聯繫的時段（選填）</label>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:6px;">
+                <label class="check-pill"><input type="checkbox" value="morning"> 早上 9–12 點</label>
+                <label class="check-pill"><input type="checkbox" value="afternoon"> 下午 12–6 點</label>
+                <label class="check-pill"><input type="checkbox" value="evening"> 晚上 6 點後</label>
+                <label class="check-pill"><input type="checkbox" value="weekend"> 週末皆可</label>
+              </div>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn-ghost" onclick="goStep2()" style="flex:1; padding:12px;">← 上一步</button>
+              <button class="submit-btn" id="btn-submit" onclick="submitForm()" style="flex:2;">送出表單 →</button>
+            </div>
+            <p class="form-note" style="margin-top:14px; text-align:left; background:var(--paper2); padding:14px 16px; font-size:11px; color:var(--ink3); line-height:1.9;">
+              ⚠️ <strong style="color:var(--ink2);">重要提醒</strong><br>
+              本服務提供 HR 實務經驗分享與建議，所有內容均依據您所提供之個人案例情況作為參考依據，<strong style="color:var(--ink2);">不構成法律意見，亦不代理任何法律事務</strong>。最終之調解、申訴或訴訟結果，將以主管機關、調解委員會或法院之認定為準。如您的案件涉及正式法律程序，建議諮詢執業律師或申請法律扶助基金會協助。
+            </p>
+          </div>
+
+          <!-- 送出成功 -->
+          <div class="success-msg" id="success" style="background:var(--paper); padding:40px 28px;">
+            <div class="success-icon">✉</div>
+            <h3>已收到你的表單！</h3>
+            <p>請點擊下方按鈕<strong>加 Line 好友</strong>方便聯繫，我會在 <strong>2 個工作天內</strong>回覆初步判斷。</p>
+            <a href="https://line.me/R/ti/p/@685caovg" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#06C755; color:#fff; padding:10px 24px; margin-top:20px; text-decoration:none; font-size:13px; font-weight:500;">
+              💬 加 Line 好友 @685caovg
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>職場權益幫手</strong><br>
+  本服務為 HR 實務顧問諮詢，不構成法律意見，不代理任何法律事務。<br>
+  所有建議均依據當事人提供之個案情況為參考，最終結果以主管機關、調解委員會或法院認定為準。<br>
+  如您的案件涉及訴訟，請諮詢執業律師或聯繫法律扶助基金會。<br><br>
+  © 2025 職場權益幫手　·　<a href="mailto:workrights.tw@gmail.com" style="color:rgba(247,245,240,0.5); text-decoration:none;">workrights.tw@gmail.com</a>　·　<a href="https://line.me/R/ti/p/@685caovg" target="_blank" style="color:#06C755; text-decoration:none;">Line <span class="line-id-text">@685caovg</span></a>
+</footer>
+
+<style>
+  .type-card {
+    display:flex; align-items:center; gap:16px; cursor:pointer;
+    border:1px solid var(--line); padding:16px 18px;
+    transition:border-color .2s, background .2s;
+    background:var(--paper);
+  }
+  .type-card:hover { border-color:var(--accent); }
+  .type-card.selected { border-color:var(--accent); background:rgba(200,75,47,0.04); }
+  .type-card-inner { flex:1; }
+  .type-card-title { font-size:14px; font-weight:500; margin-bottom:3px; }
+  .type-card-sub { font-size:12px; color:var(--ink3); }
+  .type-check {
+    width:24px; height:24px; border-radius:50%;
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-size:12px; color:transparent; flex-shrink:0;
+    transition:all .2s;
+  }
+  .type-card.selected .type-check { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .char-count { font-size:11px; color:var(--ink3); text-align:right; margin-top:4px; }
+  .char-count.warn { color:var(--accent); }
+  .check-pill {
+    display:flex; align-items:center; gap:6px; cursor:pointer;
+    border:1px solid var(--line); padding:5px 12px; font-size:12px;
+    transition:all .2s; user-select:none;
+  }
+  .check-pill:has(input:checked) { border-color:var(--accent); background:rgba(200,75,47,0.05); color:var(--accent); }
+  .check-pill input { accent-color:var(--accent); }
+</style>
+
+<script>
+  let currentType = '';
+
+  document.querySelectorAll('.type-card').forEach(card => {
+    card.addEventListener('click', function() {
+      document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      this.querySelector('input').checked = true;
+      currentType = this.dataset.type;
+      const btn = document.getElementById('btn-next-1');
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    });
+  });
+
+  function setProgress(step, total, title) {
+    document.getElementById('step-label').textContent = `步驟 ${step} / ${total}`;
+    document.getElementById('step-title-label').textContent = title;
+    document.getElementById('progress-fill').style.width = `${Math.round((step/total)*100)}%`;
+  }
+
+  function hideAllSteps() {
+    document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+  }
+
+  function goStep1() {
+    hideAllSteps();
+    document.getElementById('step-1').style.display = 'block';
+    setProgress(1, 3, '選擇身份');
+  }
+
+  function goStep2() {
+    if (!currentType) return;
+    hideAllSteps();
+    document.getElementById('step-2-' + currentType).style.display = 'block';
+    const titles = { job:'求職準備', labor:'勞資情況' };
+    setProgress(2, 3, titles[currentType] || '填寫情況');
+  }
+
+  function goStep3() {
+    hideAllSteps();
+    document.getElementById('step-3').style.display = 'block';
+    setProgress(3, 3, '聯絡方式');
+  }
+
+  function submitForm() {
+    const name = document.getElementById('final-name').value.trim();
+    const email = document.getElementById('final-email').value.trim();
+    if (!name || !email) {
+      alert('請填寫稱呼和 Email');
+      return;
+    }
+
+    // ────────────────────────────────────────────
+    // 【Formspree 設定】要更換收件表單時，只改這一行即可
+    const FORMSPREE_URL = 'https://formspree.io/f/xvzndknj';
+    // ────────────────────────────────────────────
+
+    const data = {
+      身份: currentType === 'job' ? '求職者' : '在職上班族',
+    };
+
+    if (currentType === 'job') {
+      data['目前在找的職位'] = document.getElementById('job-position').value.trim();
+      const issueEl = document.querySelector('input[name="job-issue"]:checked');
+      data['最想解決的問題'] = issueEl ? issueEl.nextElementSibling.textContent.trim() : '';
+      data['補充說明'] = document.getElementById('job-desc').value.trim();
+    } else if (currentType === 'labor') {
+      data['問題類型'] = document.getElementById('labor-issue').value;
+      data['在職年資'] = document.getElementById('labor-tenure').value;
+      data['公司規模'] = document.getElementById('labor-size').value;
+      const records = Array.from(document.querySelectorAll('#step-2-labor .check-pill input:checked'))
+        .map(cb => cb.parentElement.textContent.trim());
+      data['手邊有的紀錄'] = records.join('、');
+      data['情況描述'] = document.getElementById('labor-desc').value.trim();
+    }
+
+    data['稱呼'] = name;
+    data['Email'] = email;
+    data['Line ID'] = document.getElementById('final-line').value.trim();
+    const times = Array.from(document.querySelectorAll('#step-3 .check-pill input:checked'))
+      .map(cb => cb.parentElement.textContent.trim());
+    data['方便聯繫時段'] = times.join('、');
+
+    const btn = document.getElementById('btn-submit');
+    btn.textContent = '送出中...';
+    btn.disabled = true;
+
+    fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      if (res.ok) {
+        showSuccess();
+      } else {
+        alert('送出失敗，請稍後再試，或直接加 Line 詢問。');
+        btn.textContent = '送出表單 →';
+        btn.disabled = false;
+      }
+    })
+    .catch(() => {
+      alert('送出失敗，請檢查網路連線，或直接加 Line 詢問。');
+      btn.textContent = '送出表單 →';
+      btn.disabled = false;
+    });
+  }
+
+  function showSuccess() {
+    hideAllSteps();
+    document.getElementById('progress-bar').style.display = 'none';
+    document.getElementById('success').classList.add('show');
+    window.scrollTo({ top: document.getElementById('form').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  function trackChar(inputId, countId, max) {
+    const el = document.getElementById(inputId);
+    const cnt = document.getElementById(countId);
+    if (!el || !cnt) return;
+    el.addEventListener('input', function() {
+      const len = this.value.length;
+      cnt.textContent = len;
+      cnt.parentElement.classList.toggle('warn', len > max * 0.85);
+    });
+  }
+
+  trackChar('job-position', 'cnt-job-position', 40);
+  trackChar('job-desc', 'cnt-job-desc', 150);
+  trackChar('labor-desc', 'cnt-labor-desc', 150);
+
+  // ────────────────────────────────────────────
+  // 【Line 官方帳號設定】要更換 Line ID 時，只改這一行即可
+  // 改完後存檔，整個網站的 Line 連結都會自動更新
+  const LINE_ID = '@685caovg';
+  // ────────────────────────────────────────────
+  document.querySelectorAll('a[href*="line.me/R/ti/p/"]').forEach(a => {
+    a.href = 'https://line.me/R/ti/p/' + LINE_ID;
+  });
+  document.querySelectorAll('.line-id-text').forEach(el => {
+    el.textContent = LINE_ID;
+  });
+
+  // ════════════════════════════════════════════
+  // 內容編輯系統：點擊右下角 ✏️ 按鈕進入編輯模式
+  // 編輯內容會自動儲存在這個瀏覽器中（localStorage）
+  // 換瀏覽器或清除瀏覽器資料會導致設定遺失，請定期截圖備份重要文字
+  // ════════════════════════════════════════════
+  const STORAGE_KEY = 'workrights_content_v1';
+
+  function loadSavedContent() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      document.querySelectorAll('[data-edit]').forEach(el => {
+        const key = el.getAttribute('data-edit');
+        if (saved[key] !== undefined) {
+          el.innerHTML = saved[key];
+        }
+      });
+    } catch (e) { console.error('讀取已儲存內容失敗', e); }
+  }
+
+  function saveContent(key, html) {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      saved[key] = html;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    } catch (e) { console.error('儲存失敗', e); }
+  }
+
+  function resetAllContent() {
+    if (confirm('確定要清除所有自訂文字，恢復成預設內容嗎？此動作無法復原。')) {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  }
+
+  let editMode = false;
+  function toggleEditMode() {
+    editMode = !editMode;
+    document.querySelectorAll('[data-edit]').forEach(el => {
+      el.contentEditable = editMode;
+      el.classList.toggle('editable-active', editMode);
+    });
+    document.getElementById('edit-toggle-btn').textContent = editMode ? '✓ 完成編輯' : '✏️ 編輯文字';
+    document.getElementById('edit-toggle-btn').style.background = editMode ? '#1D9E75' : 'var(--ink)';
+    document.getElementById('edit-reset-btn').style.display = editMode ? 'inline-block' : 'none';
+    document.getElementById('edit-hint').style.display = editMode ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('[data-edit]').forEach(el => {
+    el.addEventListener('blur', function() {
+      if (editMode) {
+        saveContent(this.getAttribute('data-edit'), this.innerHTML.trim());
+      }
+    });
+    el.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey && (this.tagName === 'SPAN' || this.tagName === 'H2' || this.tagName === 'H3' || this.tagName === 'H4')) {
+        e.preventDefault();
+        this.blur();
+      }
+    });
+  });
+
+  loadSavedContent();
+
+  // 編輯控制面板
+  const editPanel = document.createElement('div');
+  editPanel.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:999; display:flex; flex-direction:column; align-items:flex-end; gap:8px; font-family:var(--sans);';
+  editPanel.innerHTML = `
+    <div id="edit-hint" style="display:none; background:var(--ink); color:var(--paper); font-size:12px; padding:10px 14px; max-width:240px; line-height:1.7;">
+      點擊任何標示的文字即可直接編輯，編輯完點擊其他地方會自動儲存。內容只存在這個瀏覽器中，請定期備份重要文字。
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button id="edit-reset-btn" onclick="resetAllContent()" style="display:none; background:var(--paper); color:var(--accent); border:1px solid var(--accent); padding:10px 16px; font-size:13px; cursor:pointer; font-family:var(--sans);">還原預設內容</button>
+      <button id="edit-toggle-btn" onclick="toggleEditMode()" style="background:var(--ink); color:var(--paper); border:none; padding:10px 18px; font-size:13px; cursor:pointer; font-family:var(--sans);">✏️ 編輯文字</button>
+    </div>
+  `;
+  document.body.appendChild(editPanel);
+
+  const editStyle = document.createElement('style');
+  editStyle.textContent = `
+    .editable-active { outline: 1px dashed var(--accent); outline-offset: 2px; cursor: text; }
+    .editable-active:hover { background: rgba(200,75,47,0.05); }
+    .editable-active:focus { outline: 2px solid var(--accent); background: rgba(200,75,47,0.08); }
+  `;
+  document.head.appendChild(editStyle);
+</script>
+</body>
+</html>
