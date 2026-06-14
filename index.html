@@ -936,7 +936,30 @@
   }
 
   let editMode = false;
-  function toggleEditMode() {
+
+  // ────────────────────────────────────────────
+  // 【編輯密碼設定】要更換密碼時，產生新的雜湊值並替換下面這一行
+  // 產生方式：在瀏覽器主控台執行
+  //   crypto.subtle.digest('SHA-256', new TextEncoder().encode('你的新密碼')).then(b => console.log(Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')))
+  // 目前密碼：workrights2026
+  const EDIT_PASSWORD_HASH = '860429737fc8e3435bbf535bfb44e6b4684dbcba806e3a9182cb3f28dcd4f2d8';
+  // ────────────────────────────────────────────
+
+  async function hashText(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function toggleEditMode() {
+    if (!editMode) {
+      const input = prompt('請輸入編輯密碼：');
+      if (input === null) return;
+      const hash = await hashText(input);
+      if (hash !== EDIT_PASSWORD_HASH) {
+        alert('密碼錯誤');
+        return;
+      }
+    }
     editMode = !editMode;
     document.querySelectorAll('[data-edit]').forEach(el => {
       el.contentEditable = editMode;
@@ -964,27 +987,30 @@
 
   loadSavedContent();
 
-  // 編輯控制面板
-  const editPanel = document.createElement('div');
-  editPanel.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:999; display:flex; flex-direction:column; align-items:flex-end; gap:8px; font-family:var(--sans);';
-  editPanel.innerHTML = `
-    <div id="edit-hint" style="display:none; background:var(--ink); color:var(--paper); font-size:12px; padding:10px 14px; max-width:240px; line-height:1.7;">
-      點擊任何標示的文字即可直接編輯，編輯完點擊其他地方會自動儲存。內容只存在這個瀏覽器中，請定期備份重要文字。
-    </div>
-    <div style="display:flex; gap:8px;">
-      <button id="edit-reset-btn" onclick="resetAllContent()" style="display:none; background:var(--paper); color:var(--accent); border:1px solid var(--accent); padding:10px 16px; font-size:13px; cursor:pointer; font-family:var(--sans);">還原預設內容</button>
-      <button id="edit-toggle-btn" onclick="toggleEditMode()" style="background:var(--ink); color:var(--paper); border:none; padding:10px 18px; font-size:13px; cursor:pointer; font-family:var(--sans);">✏️ 編輯文字</button>
-    </div>
-  `;
-  document.body.appendChild(editPanel);
+  // 編輯控制面板：只有網址加上 ?edit=true 時才會顯示
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('edit') === 'true') {
+    const editPanel = document.createElement('div');
+    editPanel.style.cssText = 'position:fixed; bottom:20px; right:20px; z-index:999; display:flex; flex-direction:column; align-items:flex-end; gap:8px; font-family:var(--sans);';
+    editPanel.innerHTML = `
+      <div id="edit-hint" style="display:none; background:var(--ink); color:var(--paper); font-size:12px; padding:10px 14px; max-width:240px; line-height:1.7;">
+        點擊任何標示的文字即可直接編輯，編輯完點擊其他地方會自動儲存。內容只存在這個瀏覽器中，請定期備份重要文字。
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button id="edit-reset-btn" onclick="resetAllContent()" style="display:none; background:var(--paper); color:var(--accent); border:1px solid var(--accent); padding:10px 16px; font-size:13px; cursor:pointer; font-family:var(--sans);">還原預設內容</button>
+        <button id="edit-toggle-btn" onclick="toggleEditMode()" style="background:var(--ink); color:var(--paper); border:none; padding:10px 18px; font-size:13px; cursor:pointer; font-family:var(--sans);">✏️ 編輯文字</button>
+      </div>
+    `;
+    document.body.appendChild(editPanel);
 
-  const editStyle = document.createElement('style');
-  editStyle.textContent = `
-    .editable-active { outline: 1px dashed var(--accent); outline-offset: 2px; cursor: text; }
-    .editable-active:hover { background: rgba(200,75,47,0.05); }
-    .editable-active:focus { outline: 2px solid var(--accent); background: rgba(200,75,47,0.08); }
-  `;
-  document.head.appendChild(editStyle);
+    const editStyle = document.createElement('style');
+    editStyle.textContent = `
+      .editable-active { outline: 1px dashed var(--accent); outline-offset: 2px; cursor: text; }
+      .editable-active:hover { background: rgba(200,75,47,0.05); }
+      .editable-active:focus { outline: 2px solid var(--accent); background: rgba(200,75,47,0.08); }
+    `;
+    document.head.appendChild(editStyle);
+  }
 </script>
 </body>
 </html>
